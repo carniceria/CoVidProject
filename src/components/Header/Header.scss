@@ -1,0 +1,53 @@
+@import '../../styles/index';
+
+.c-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: calc(100vw - 80px);
+    padding: 45px 40px;
+    z-index: 2;
+}
+
+.c-header-sidebar-info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 45px 40px;
+    height: 100vh;
+    width: 350px;
+    left: -430px;
+    background-color: rgba($secondary-color, .8); //$secondary-color;
+    z-index: 3;
+    transition: .4s linear;
+
+    &.-open {
+        left: 0;
+    }
+
+    &__title {
+        position: relative;
+        margin: 0;
+
+        &::before {
+            content: '';
+            position: absolute;
+            display: block;
+            height: 2px;
+            background-color: $white;
+            width: calc(100% + 40px);
+            bottom: -6px;
+            left: -40px;
+        }
+    }
+}
+
+.c-header-sidebar-info-back {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    z-index: 2;
+}

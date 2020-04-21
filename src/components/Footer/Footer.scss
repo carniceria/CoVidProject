@@ -1,0 +1,13 @@
+@import '../../styles/index';
+
+.c-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: calc(100vw - 80px);
+    padding: 45px 40px;
+    z-index: 2;
+}

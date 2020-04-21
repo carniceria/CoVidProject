@@ -1,0 +1,47 @@
+@import '../../styles/index';
+
+.l-vizz {
+    background-color: $secondary-color;
+    min-height: 100vh;
+
+    &__loading {
+        position: absolute;
+        top: 70%;
+        left: 100px;
+        transform: translate(0, -50%);
+    }
+
+    &__container-left {
+        position: absolute;
+        top: 50%;
+        left: 40px;
+        transform: translate(0, -50%);
+        z-index: 2;
+    }
+
+    &__controls {
+        // height: 50px;
+    }
+
+    &__slider-time {
+        height: calc(100vh - 170px);
+        width: 3px;
+        background-color: $white;
+
+        &__line {
+            width: 5px;
+            height: 1px;
+            background-color: $white;
+            position: relative;
+            right: 5px;
+
+            &__text {
+                font-size: 10px;
+                position: absolute;
+                top: 50%;
+                transform: translate(0, -50%);
+                left: calc(100% + 6px);
+            }
+        }
+    }
+}

@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:200,300,400,500,600,700,800,900');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+$primary-font: 'Raleway', sans-serif;
+$secondary-font: 'Noto Serif', serif;
+
+.text {
+    font-family: $primary-font;
+
+    &.-secondary-font {
+        font-family: $secondary-font;
+    }
+
+    &.-uppercase {
+        text-transform: uppercase;
+    }
+
+    &.-center {
+        text-align: center;
+    }
+
+    &.-bold {
+        font-weight: 900;
+    }
+
+    &.-light {
+        font-weight: 300;
+    }
+
+    &.-light-hover {
+        font-weight: 300;
+
+        &:hover {
+            font-weight: 600;
+        }
+    }
+
+    &.-black {
+        color: $black;
+    }
+
+    &.-white {
+        color: $white;
+    }
+
+    &.-xxl {
+        font-size: 55px;
+
+        @media(min-width: 768px) {
+            font-size: 70px;
+        }
+    }
+
+    &.-xl {
+        font-size: 32px;
+
+        @media(min-width: 768px) {
+            font-size: 48px;
+        }
+    }
+
+    &.-l {
+        font-size: 24px;
+
+        @media(min-width: 768px) {
+            font-size: 26px;
+        }
+    }
+
+    &.-m {
+        font-size: 24px;
+
+        @media(min-width: 768px) {
+            font-size: 20px;
+        }
+    }
+
+    &.-s {
+        font-size: 12px;
+
+        @media(min-width: 768px) {
+            font-size: 14px;
+        }
+    }
+
+    &.-pointer {
+        cursor: pointer;
+    }
+}
