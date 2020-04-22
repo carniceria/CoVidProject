@@ -216,4 +216,6 @@ module.exports = {
             }
         ]
     },
+    GROUPS: 12,
+    DIFF_DAYS: 5
 };

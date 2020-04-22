@@ -4,12 +4,11 @@ import { ForceGraph2D, ForceGraph3D, ForceGraphVR, ForceGraphAR } from 'react-fo
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 
-import { DATA } from '../../constants/data';
+import { DATA, GROUPS, DIFF_DAYS } from '../../constants/data';
 
 require('dotenv').config()
 
 require('./Vizz.scss');
-const GROUPS = 12;
 
 const FIRST_DAY = moment('10-03-2020');
 const LAST_DAY = moment();
@@ -60,8 +59,8 @@ class Vizz extends Component {
     }
 
     buildSliderTime= () => {
-        const DIFF_DAYS = 5;
         const diffDates = FIRST_DAY.diff(LAST_DAY, 'days') / DIFF_DAYS;
+        const completeDiffDates = FIRST_DAY.diff(LAST_DAY, 'days');
         const dayList = [...Array(diffDates * DIFF_DAYS).keys()];
 
         const daysData = dayList.map((v, i) => {
