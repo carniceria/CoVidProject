@@ -52,17 +52,20 @@ class Header extends Component {
     }
 
     render() {
+        const { black } = this.props;
+        const colorMenu = black ? '-black' : '-white';
+
         return (
             <Fragment>
                 {this.buildBackgroundCloseInfoSideBar()}
                 {this.buildInfoSideBar()}
                 <header className="c-header">
-                    <div className="text -white -bold -m -uppercase cursor-pointer" onClick={() => this.handleShowInfo()}>
+                    <div className={`text  -bold -m -uppercase cursor-pointer ${colorMenu}`} onClick={() => this.handleShowInfo()}>
                         info
                     </div>
-                    <div className="text -white -bold -m -uppercase cursor-pointer">
+                    <Link to="/hypertext" className={`text  -bold -m -uppercase cursor-pointer ${colorMenu}`}>
                         hipertexto
-                    </div>
+                    </Link>
                 </header>
             </Fragment>
         );

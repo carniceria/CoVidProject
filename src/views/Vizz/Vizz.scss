@@ -19,6 +19,22 @@
         z-index: 2;
     }
 
+    &__container {
+        &__footer-filters {
+            display: flex;
+            flex-direction: row;
+            position: absolute;
+            right: 25px;
+            bottom: 60px;
+
+            img {
+                cursor: pointer;
+                width: 60px;
+                cursor: pointer;
+            }
+        }
+    }
+
     &__controls {
         // height: 50px;
     }
@@ -43,5 +59,6 @@
                 left: calc(100% + 6px);
             }
         }
+
     }
 }

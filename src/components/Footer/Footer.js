@@ -15,9 +15,12 @@ class Footer extends Component {
     }
 
     render() {
+        const { black } = this.props;
+        const colorMenu = black ? '-black' : '-white';
+
         return (
             <footer className="c-footer">
-                <span className="text -s -white">
+                <span className={`text -s ${colorMenu}`}>
                     proudly baked by{' '}
                     <b>carnicería</b>{' '}
                     as a research{' '}

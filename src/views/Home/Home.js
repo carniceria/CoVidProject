@@ -1,25 +1,58 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 import { Footer } from '../../components/Footer/Footer';
+import * as contentful from 'contentful'
 
 require('dotenv').config()
-
 require('./Home.scss');
 
+const client = contentful.createClient({
+    space: process.env.REACT_APP_SPACE_ID,
+    accessToken: process.env.REACT_APP_ACCESS_TOKEN,
+})
+
 class Home extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            titleTop: '',
+            titleBottom: '',
+            description: '',
+        }
+    }
+
+    componentDidMount() {
+        this.fetchPosts().then(this.setPosts);
+    }
+
+    fetchPosts = () => client.getEntries({
+        content_type: "homePage",
+        limit: 1000
+    });
+
+    setPosts = (response) => {
+        const dataHome = response.items[0].fields;
+
+        this.setState({
+            titleTop: dataHome.topTitle,
+            titleBottom: dataHome.bottomTitle,
+            description: dataHome.description,
+        })
+    }
+
     render() {
+        const { titleTop, titleBottom, description } = this.state;
+
         return (
             <Fragment>
                 <div className="l-home">
                     <div className="l-home__container-text">
-                        <h2 className="text -uppercase -white -center -xl -bold">Mientras dure</h2>
-                        <h1 className="text -uppercase -white -center -xxl -bold">la pandemia</h1>
+                        <h2 className="text -uppercase -white -center -xl -bold">{titleTop}</h2>
+                        <h1 className="text -uppercase -white -center -xxl -bold">{titleBottom}</h1>
                         <p className="text -uppercase -white -center -s -light">
-                            esta visualización de datos es el resultado de un proyecto
-                            de investigación sobre la pandemia
-                            covid-19. El estado de alarma. la cuarentena y el impacto
-                            que produce sobre
-                            <br></br>el cuerpo - la vivienda - la ciudad
+                            {description}
                         </p>
                     </div>
                     <div className="l-home__container-button">

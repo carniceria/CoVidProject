@@ -1,0 +1,19 @@
+@import '../../styles/index';
+
+.l-hypertext {
+    max-width: 900px;
+    margin: 120px auto;
+
+    &__title {
+        margin-bottom: 0;
+    }
+
+    &__subtitle {
+        display: block;
+    }
+
+    &__text {
+        margin-top: 40px;
+        line-height: 1.6;
+    }
+}

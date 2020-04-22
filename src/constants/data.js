@@ -102,8 +102,6 @@ module.exports = {
             {
                 "source": "id3",
                 "target": "id5",
-                "curvature": 0.3,
-                "rotation": Math.PI * 2 / 3
             },
             {
                 "source": "id4",

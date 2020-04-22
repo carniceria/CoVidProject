@@ -4,6 +4,10 @@ import { ForceGraph2D, ForceGraph3D, ForceGraphVR, ForceGraphAR } from 'react-fo
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 
+import printIcon from '../../assets/icons/MENU_print_line.svg';
+import layerIcon from '../../assets/icons/MENU_layers_line.svg';
+import tagIcon from '../../assets/icons/MENU_tag_line.svg';
+
 import { DATA, GROUPS, DIFF_DAYS } from '../../constants/data';
 
 require('dotenv').config()
@@ -58,13 +62,29 @@ class Vizz extends Component {
         })
     }
 
+    buildButtonsFooter = () => {
+        return (
+            <div className="l-vizz__container__footer-filters">
+                <div>
+                    <img src={tagIcon} />
+                </div>
+                <div>
+                    <img src={layerIcon} />
+                </div>
+                <div>
+                    <img src={printIcon} />
+                </div>
+            </div>
+        )
+    }
+
     buildSliderTime= () => {
         const diffDates = FIRST_DAY.diff(LAST_DAY, 'days') / DIFF_DAYS;
         const completeDiffDates = FIRST_DAY.diff(LAST_DAY, 'days');
         const dayList = [...Array(diffDates * DIFF_DAYS).keys()];
 
         const daysData = dayList.map((v, i) => {
-            if(i % DIFF_DAYS === 0) {
+            if (i % DIFF_DAYS === 0) {
                 return (
                     {
                         dayText: moment('10-03-2020').add(i, 'days').format('DD/MM'),
@@ -73,7 +93,6 @@ class Vizz extends Component {
                 )
             }
         })
-
 
         return (
             <div className="l-vizz__container-left">
@@ -96,27 +115,31 @@ class Vizz extends Component {
                 <div className="l-vizz">
                     {this.buildSliderTime()}
                     {!isLoading &&
-                        <div className="l-vizz__container">
-                            <ForceGraph3D
-                                width={window.innerWidth - 20}
-                                height={window.innerHeight - 20}
-                                graphData={DATA}
-                                linkColor="white"
-                                showNavInfo={false}
-                                linkOpacity={1}
-                                linkCurvature="curvature"
-                                linkCurveRotation="rotation"
-                                linkDirectionalParticles={2}
-                                nodeAutoColorBy={d => d.val%GROUPS}
-                                backgroundColor="#03021B"
-                            />
-                        </div>
+                        <Fragment>
+                            <div className="l-vizz__container">
+                                <ForceGraph3D
+                                    width={window.innerWidth - 20}
+                                    height={window.innerHeight - 20}
+                                    graphData={DATA}
+                                    linkColor="white"
+                                    showNavInfo={false}
+                                    linkOpacity={1}
+                                    linkCurvature="curvature"
+                                    linkCurveRotation="rotation"
+                                    linkDirectionalParticles={2}
+                                    nodeAutoColorBy={d => d.val%GROUPS}
+                                    backgroundColor="#03021B"
+                                />
+                                {this.buildButtonsFooter()}
+                            </div>
+                        </Fragment>
                     }
                     {isLoading &&
                         <Fragment>
                             <h1 className="text -white -xl -bold l-vizz__loading">cooking everything</h1>
                         </Fragment>
                     }
+
                 </div>
                 <Footer />
             </Fragment>
