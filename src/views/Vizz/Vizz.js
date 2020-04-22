@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import moment from 'moment';
+import * as contentful from 'contentful';
+
 import { ForceGraph2D, ForceGraph3D, ForceGraphVR, ForceGraphAR } from 'react-force-graph';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
@@ -8,7 +10,14 @@ import printIcon from '../../assets/icons/MENU_print_line.svg';
 import layerIcon from '../../assets/icons/MENU_layers_line.svg';
 import tagIcon from '../../assets/icons/MENU_tag_line.svg';
 
-import { DATA, GROUPS, DIFF_DAYS } from '../../constants/data';
+import { GROUPS, DIFF_DAYS } from '../../constants/data';
+
+
+const client = contentful.createClient({
+    space: process.env.REACT_APP_SPACE_ID,
+    accessToken: process.env.REACT_APP_ACCESS_TOKEN,
+})
+
 
 require('dotenv').config()
 
@@ -23,24 +32,44 @@ class Vizz extends Component {
 
         this.state = {
             showSidebarInfo: false,
-            isLoading: true
+            isLoading: true,
+            data: null
         }
     }
 
     componentDidMount() {
-        this.timerID = setInterval(
-          () => {
-              this.setState({
-                isLoading: false
-              })
-          },
-          3000
-        );
+        this.fetchPosts().then(this.setPosts);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timerID);
+    fetchPosts = () => client.getEntries({
+        content_type: "vizzData",
+        limit: 1000
+    });
+
+    setPosts = (response) => {
+        console.log(response, 'RESPOOOONSE');
+
+        const dataHome = response.items[0].fields;
+
+        this.setState({
+            data: dataHome.data,
+        })
     }
+
+    // componentDidMount() {
+    //     this.timerID = setInterval(
+    //       () => {
+    //           this.setState({
+    //             isLoading: false
+    //           })
+    //       },
+    //       3000
+    //     );
+    // }
+
+    // componentWillUnmount() {
+    //     clearInterval(this.timerID);
+    // }
 
     handleShowInfo = () => {
         const { showSidebarInfo } = this.state;
@@ -107,20 +136,20 @@ class Vizz extends Component {
     }
 
     render() {
-        const { isLoading } = this.state;
+        const { data } = this.state;
 
         return (
             <Fragment>
                 <Header />
                 <div className="l-vizz">
                     {this.buildSliderTime()}
-                    {!isLoading &&
+                    {data &&
                         <Fragment>
                             <div className="l-vizz__container">
                                 <ForceGraph3D
                                     width={window.innerWidth - 20}
                                     height={window.innerHeight - 20}
-                                    graphData={DATA}
+                                    graphData={data}
                                     linkColor="white"
                                     showNavInfo={false}
                                     linkOpacity={1}
@@ -134,7 +163,7 @@ class Vizz extends Component {
                             </div>
                         </Fragment>
                     }
-                    {isLoading &&
+                    {!data &&
                         <Fragment>
                             <h1 className="text -white -xl -bold l-vizz__loading">cooking everything</h1>
                         </Fragment>
