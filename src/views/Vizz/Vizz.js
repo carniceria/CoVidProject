@@ -158,6 +158,7 @@ class Vizz extends Component {
                                     linkDirectionalParticles={2}
                                     nodeAutoColorBy={d => d.val%GROUPS}
                                     backgroundColor="#03021B"
+                                    nodeResolution={20}
                                 />
                                 {this.buildButtonsFooter()}
                             </div>
