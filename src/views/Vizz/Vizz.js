@@ -137,21 +137,25 @@ class Vizz extends Component {
         return (
             <div className="l-vizz__container__footer-filters">
                 <div
+                    className="l-vizz__container__footer-filters__image-container"
                     onMouseEnter={() => this.enterButtonsFooter('tag')}
                     onMouseLeave={() => this.leaveButtonsFooter('tag')}
                 >
                     <img className="pointer" src={tagWhite ? tagIconWhite : tagIcon} />
                 </div>
                 <div
+                    className="l-vizz__container__footer-filters__image-container"
                     onMouseEnter={() => this.enterButtonsFooter('layer')}
                     onMouseLeave={() => this.leaveButtonsFooter('layer')}
                 >
                     <img className="pointer" src={layerWhite ? layerIconWhite : layerIcon} />
                 </div>
                 <div
+                    className="l-vizz__container__footer-filters__image-container"
                     onMouseEnter={() => this.enterButtonsFooter('print')}
                     onMouseLeave={() => this.leaveButtonsFooter('print')}
                 >
+                    {printWhite && <span className="text -white -bold -xs -uppercase l-vizz__container__footer-filters__print-text">Imprimir</span>}
                     <img className="pointer" src={printWhite ? printIconWhite : printIcon} />
                 </div>
             </div>
@@ -183,6 +187,7 @@ class Vizz extends Component {
                     <img src={nextIcon} />
                 </div>
                 <div className="l-vizz__slider-time">
+                    <div className="l-vizz__slider-time__triangle"></div>
                     {this.buildLinesSliderTime(daysData.filter(Boolean), ((window.innerHeight - 170) / daysData.filter(Boolean).length) - 1)}
                 </div>
             </div>

@@ -28,6 +28,16 @@
             bottom: 60px;
             z-index: 10;
 
+            &__image-container {
+                position: relative;
+            }
+
+            &__print-text {
+                position: absolute;
+                right: 10px;
+                top: -20px;
+            }
+
             img {
                 cursor: pointer;
                 width: 60px;
@@ -47,6 +57,17 @@
         height: calc(100vh - 170px);
         width: 3px;
         background-color: $white;
+
+        &__triangle {
+            width: 0;
+            height: 0;
+            top: 65px;
+            left: 40px;
+            border-style: solid;
+            border-width: 7.5px 13px 7.5px 0;
+            position: absolute;
+            border-color: transparent $white transparent transparent;
+        }
 
         &__line {
             width: 5px;
