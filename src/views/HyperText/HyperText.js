@@ -2,7 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
-import * as contentful from 'contentful'
+import * as contentful from 'contentful';
+
+const ReactMarkdown = require('react-markdown')
+
 
 require('dotenv').config()
 require('./HyperText.scss');
@@ -54,7 +57,7 @@ class HyperText extends Component {
                     <h1 className="text -black -l -center l-hypertext__title">{title}</h1>
                     <span className="text -black -s -center l-hypertext__subtitle">{subTitle}</span>
                     <div className="text -black -m l-hypertext__text">
-                        {text}
+                        <ReactMarkdown source={text} />
                     </div>
                 </div>
                 <Footer black/>

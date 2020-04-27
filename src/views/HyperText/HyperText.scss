@@ -1,6 +1,11 @@
 @import '../../styles/index';
 
+html {
+    overflow-y: scroll
+}
+
 .l-hypertext {
+    overflow-y: hidden;
     max-width: 900px;
     margin: 120px auto;
 

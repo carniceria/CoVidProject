@@ -9,8 +9,17 @@ import { Footer } from '../../components/Footer/Footer';
 import printIcon from '../../assets/icons/MENU_print_line.svg';
 import layerIcon from '../../assets/icons/MENU_layers_line.svg';
 import tagIcon from '../../assets/icons/MENU_tag_line.svg';
+import printIconWhite from '../../assets/icons/MENU_print_solid.svg';
+import layerIconWhite from '../../assets/icons/MENU_layers_solid.svg';
+import tagIconWhite from '../../assets/icons/MENU_tag_solid.svg';
 
-import { GROUPS, DIFF_DAYS } from '../../constants/data';
+import playIcon from '../../assets/icons/TIMELINE_play.svg'
+import pauseIcon from '../../assets/icons/TIMELINE_pause.svg';
+import nextIcon from '../../assets/icons/TIMELINE_day_after.svg';
+import lastIcon from '../../assets/icons/TIMELINE_day_before.svg';
+import indicatorIcon from '../../assets/icons/TIMELINE_indicator.svg';
+
+import { GROUPS, DIFF_DAYS, DEMO } from '../../constants/data';
 
 
 const client = contentful.createClient({
@@ -33,7 +42,10 @@ class Vizz extends Component {
         this.state = {
             showSidebarInfo: false,
             isLoading: true,
-            data: null
+            data: null,
+            printWhite: false,
+            layerWhite: false,
+            tagWhite: false,
         }
     }
 
@@ -47,29 +59,25 @@ class Vizz extends Component {
     });
 
     setPosts = (response) => {
-        console.log(response, 'RESPOOOONSE');
+        const dataHome = response.items[0].fields.data;
+        const copyData = {...dataHome, mama: [{hola: "pepe"}]}
+        let arrayLinks = [];
 
-        const dataHome = response.items[0].fields;
+        dataHome.nodes.map((v, i) => {
+            v.links.replace(/\s/g, '').split(',').map((value) => {
+                arrayLinks.push({
+                    source: v.id,
+                    target: 'id'+value,
+                })
+            })
+        })
+
+        copyData.copyLink = arrayLinks;
 
         this.setState({
-            data: dataHome.data,
+            data: {nodes: dataHome.nodes, links: [...copyData.copyLink]},
         })
     }
-
-    // componentDidMount() {
-    //     this.timerID = setInterval(
-    //       () => {
-    //           this.setState({
-    //             isLoading: false
-    //           })
-    //       },
-    //       3000
-    //     );
-    // }
-
-    // componentWillUnmount() {
-    //     clearInterval(this.timerID);
-    // }
 
     handleShowInfo = () => {
         const { showSidebarInfo } = this.state;
@@ -91,17 +99,60 @@ class Vizz extends Component {
         })
     }
 
+    enterButtonsFooter = (type) => {
+        if (type === 'tag') {
+            this.setState({
+                tagWhite: true
+            })
+        } else if (type === 'layer'){
+            this.setState({
+                layerWhite: true
+            })
+        } else if (type === 'print') {
+            this.setState({
+                printWhite: true
+            })
+        }
+    }
+
+    leaveButtonsFooter = (type) => {
+        if (type === 'tag') {
+            this.setState({
+                tagWhite: false
+            })
+        } else if (type === 'layer'){
+            this.setState({
+                layerWhite: false
+            })
+        } else if (type === 'print') {
+            this.setState({
+                printWhite: false
+            })
+        }
+    }
+
     buildButtonsFooter = () => {
+        const { tagWhite, layerWhite, printWhite } = this.state;
+
         return (
             <div className="l-vizz__container__footer-filters">
-                <div>
-                    <img src={tagIcon} />
+                <div
+                    onMouseEnter={() => this.enterButtonsFooter('tag')}
+                    onMouseLeave={() => this.leaveButtonsFooter('tag')}
+                >
+                    <img className="pointer" src={tagWhite ? tagIconWhite : tagIcon} />
                 </div>
-                <div>
-                    <img src={layerIcon} />
+                <div
+                    onMouseEnter={() => this.enterButtonsFooter('layer')}
+                    onMouseLeave={() => this.leaveButtonsFooter('layer')}
+                >
+                    <img className="pointer" src={layerWhite ? layerIconWhite : layerIcon} />
                 </div>
-                <div>
-                    <img src={printIcon} />
+                <div
+                    onMouseEnter={() => this.enterButtonsFooter('print')}
+                    onMouseLeave={() => this.leaveButtonsFooter('print')}
+                >
+                    <img className="pointer" src={printWhite ? printIconWhite : printIcon} />
                 </div>
             </div>
         )
@@ -126,7 +177,10 @@ class Vizz extends Component {
         return (
             <div className="l-vizz__container-left">
                 <div className="l-vizz__controls">
-
+                    <img src={lastIcon} />
+                    <img src={pauseIcon} />
+                    <img src={playIcon} />
+                    <img src={nextIcon} />
                 </div>
                 <div className="l-vizz__slider-time">
                     {this.buildLinesSliderTime(daysData.filter(Boolean), ((window.innerHeight - 170) / daysData.filter(Boolean).length) - 1)}
@@ -136,7 +190,7 @@ class Vizz extends Component {
     }
 
     render() {
-        const { data } = this.state;
+        const { data, showData } = this.state;
 
         return (
             <Fragment>
@@ -156,9 +210,9 @@ class Vizz extends Component {
                                     linkCurvature="curvature"
                                     linkCurveRotation="rotation"
                                     linkDirectionalParticles={2}
-                                    nodeAutoColorBy={d => d.val%GROUPS}
                                     backgroundColor="#03021B"
-                                    nodeResolution={20}
+                                    nodeResolution={25}
+                                    nodeAutoColorBy={d => data.nodes[d.source].color}
                                 />
                                 {this.buildButtonsFooter()}
                             </div>
