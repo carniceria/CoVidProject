@@ -46,7 +46,6 @@ class HyperText extends Component {
         })
     }
 
-
     render() {
         const { title, subTitle, text } = this.state;
 

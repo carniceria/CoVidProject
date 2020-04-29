@@ -46,6 +46,8 @@ class Vizz extends Component {
             printWhite: false,
             layerWhite: false,
             tagWhite: false,
+            pauseVideo: true,
+            numberDays: 0
         }
     }
 
@@ -162,7 +164,16 @@ class Vizz extends Component {
         )
     }
 
+    handleTimeLine = () => {
+        const { pauseVideo } = this.state;
+
+        this.setState({
+            pauseVideo: !pauseVideo,
+        })
+    }
+
     buildSliderTime= () => {
+        const { pauseVideo, numberDays } = this.state;
         const diffDates = FIRST_DAY.diff(LAST_DAY, 'days') / DIFF_DAYS;
         const completeDiffDates = FIRST_DAY.diff(LAST_DAY, 'days');
         const dayList = [...Array(diffDates * DIFF_DAYS).keys()];
@@ -178,20 +189,29 @@ class Vizz extends Component {
             }
         })
 
-        return (
-            <div className="l-vizz__container-left">
-                <div className="l-vizz__controls">
-                    <img src={lastIcon} />
-                    <img src={pauseIcon} />
-                    <img src={playIcon} />
-                    <img src={nextIcon} />
+        if (numberDays === 0) {
+            this.setState({
+                numberDays: dayList.length,
+            })
+        } else {
+            return (
+                <div className="l-vizz__container-left">
+                    <div className="l-vizz__controls">
+                        <img src={lastIcon} />
+                        <img onClick={() => this.handleTimeLine()} src={pauseVideo ? playIcon : pauseIcon} />
+                        <img src={nextIcon} />
+                    </div>
+                    <div className="l-vizz__slider-time">
+                        <div className="l-vizz__slider-time__triangle"></div>
+                        {this.buildLinesSliderTime(daysData.filter(Boolean), ((window.innerHeight - 190) / daysData.filter(Boolean).length) - 1)}
+                    </div>
                 </div>
-                <div className="l-vizz__slider-time">
-                    <div className="l-vizz__slider-time__triangle"></div>
-                    {this.buildLinesSliderTime(daysData.filter(Boolean), ((window.innerHeight - 170) / daysData.filter(Boolean).length) - 1)}
-                </div>
-            </div>
-        )
+            )
+        }
+    }
+
+    showTitle = (dataNode) => {
+        console.log(dataNode);
     }
 
     render() {
@@ -204,7 +224,7 @@ class Vizz extends Component {
                     {this.buildSliderTime()}
                     {data &&
                         <Fragment>
-                            <div className="l-vizz__container">
+                            <div className="l-vizz__container" id="my-node">
                                 <ForceGraph3D
                                     width={window.innerWidth - 20}
                                     height={window.innerHeight - 20}
@@ -218,6 +238,7 @@ class Vizz extends Component {
                                     backgroundColor="#03021B"
                                     nodeResolution={25}
                                     nodeAutoColorBy={d => data.nodes[d.source].color}
+                                    onNodeHover={this.showTitle}
                                 />
                                 {this.buildButtonsFooter()}
                             </div>
