@@ -167,6 +167,8 @@ class Vizz extends Component {
     handleTimeLine = () => {
         const { pauseVideo } = this.state;
 
+        console.log(this);
+
         this.setState({
             pauseVideo: !pauseVideo,
         })
@@ -201,7 +203,7 @@ class Vizz extends Component {
                         <img onClick={() => this.handleTimeLine()} src={pauseVideo ? playIcon : pauseIcon} />
                         <img src={nextIcon} />
                     </div>
-                    <div className="l-vizz__slider-time">
+                    <div className="l-vizz__slider-time" ref={this.myRef}>
                         <div className="l-vizz__slider-time__triangle"></div>
                         {this.buildLinesSliderTime(daysData.filter(Boolean), ((window.innerHeight - 190) / daysData.filter(Boolean).length) - 1)}
                     </div>
@@ -210,8 +212,8 @@ class Vizz extends Component {
         }
     }
 
-    showTitle = (dataNode) => {
-        console.log(dataNode);
+    showTitle = (dataNode, e) => {
+        console.log(e);
     }
 
     render() {
